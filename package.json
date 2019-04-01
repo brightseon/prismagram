@@ -6,10 +6,13 @@
   "author": "Seon <seonu0823@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.2",
+    "dotenv": "^7.0.0",
     "graphql-yoga": "^1.17.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "nodemon": "^1.18.10"
   },
   "scripts": {
