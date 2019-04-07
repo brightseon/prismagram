@@ -14,15 +14,17 @@
     "graphql-yoga": "^1.17.4",
     "merge-graphql-schemas": "^1.5.8",
     "morgan": "^1.9.1",
+    "nodemailer": "^6.1.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "prisma": "^1.29.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
   },
   "scripts": {
-    "deploy" : "prisma deploy",
-    "generate" : "prisma generate",
-    "prisma" : "yarn run deploy && yarn run generate",
+    "deploy": "prisma deploy",
+    "generate": "prisma generate",
+    "prisma": "yarn run deploy && yarn run generate",
     "dev": "nodemon --exec babel-node src/server.js"
   }
 }
