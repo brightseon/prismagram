@@ -5,8 +5,9 @@ dotenv.config({ path : path.resolve(__dirname, '.env') });
 
 import { GraphQLServer } from 'graphql-yoga';
 import logger from 'morgan';
+import passport from 'passport';
 import schema from './schema';
-import { sendSecretMail } from './utils';
+import './passport';
 
 const PORT = process.env.PORT || 4000; 
 
@@ -15,5 +16,7 @@ const server = new GraphQLServer({
 });
 
 server.express.use(logger('dev'));
+// path는 경로를 미들웨어로 보호하고 싶을 때 사용
+server.express.use(passport.authenticate('jwt'));
 
 server.start({ port : PORT }, () => console.log(`✅   Server running on port http://localhost:${ PORT }`));
