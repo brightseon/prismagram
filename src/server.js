@@ -1,22 +1,22 @@
-import dotenv from 'dotenv';
-import path from 'path';
-
-dotenv.config({ path : path.resolve(__dirname, '.env') });
-
+import './env';
 import { GraphQLServer } from 'graphql-yoga';
 import logger from 'morgan';
-import passport from 'passport';
 import schema from './schema';
 import './passport';
+import { authenticateJwt } from './passport';
 
 const PORT = process.env.PORT || 4000; 
 
+// context : 모든 resolver에 정보를 공유할 때 사용
+// context에는 함수를 담을 수도 있다.
 const server = new GraphQLServer({
-    schema
+    schema,
+    // context의 parameter인 req는 passport에 입력되는 req 객체와는 다르다.
+    // context의 req 객체에 담기는 정보 중 하나가 passport의 req 객체와 같다.
+    context : ({ request }) => ({ request })
 });
 
 server.express.use(logger('dev'));
-// path는 경로를 미들웨어로 보호하고 싶을 때 사용
-server.express.use(passport.authenticate('jwt'));
+server.express.use(authenticateJwt);
 
 server.start({ port : PORT }, () => console.log(`✅   Server running on port http://localhost:${ PORT }`));
