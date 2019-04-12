@@ -8,25 +8,26 @@ export default {
             
             const { postId } = args;
             const { user } = request;
+            const filterOptions = {
+                AND : [
+                    {
+                        user : {
+                            id : user.id
+                        }
+                    },
+                    {
+                        post : {
+                            id : postId
+                        }
+                    }
+                ]
+            };
 
             try {
-                const existingLike = await prisma.$exists.like({
-                    AND : [
-                        {
-                            user : {
-                                id : user.id
-                            }
-                        },
-                        {
-                            post : {
-                                id : postId
-                            }
-                        }
-                    ]
-                });
+                const existingLike = await prisma.$exists.like(filterOptions);
     
                 if(existingLike) {
-                    // TO DO
+                    await prisma.deleteManyLikes(filterOptions);
                 } else {
                     // 좋아요가 존재하지 않을 때, 이 사용자가 가지면서 포스터가 가지고 있는 좋아요를 만든다.
                     await prisma.createLike({
