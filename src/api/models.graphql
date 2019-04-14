@@ -55,3 +55,8 @@ type Message {
     from : User!
     room : Room!
 }
+
+type UserProfile {
+    user : User!
+    posts : [Post!]!
+}

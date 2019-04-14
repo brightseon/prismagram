@@ -13,7 +13,7 @@ export default {
             return {
                 user : userProfile,
                 posts
-            }
+            };
         }
     }
 };
