@@ -4,6 +4,7 @@ import logger from 'morgan';
 import schema from './schema';
 import './passport';
 import { authenticateJwt } from './passport';
+import { isAuthenticated } from './middlewares';
 
 const PORT = process.env.PORT || 4000; 
 
@@ -13,7 +14,7 @@ const server = new GraphQLServer({
     schema,
     // context의 parameter인 req는 passport에 입력되는 req 객체와는 다르다.
     // context의 req 객체에 담기는 정보 중 하나가 passport의 req 객체와 같다.
-    context : ({ request }) => ({ request })
+    context : ({ request }) => ({ request, isAuthenticated })
 });
 
 server.express.use(logger('dev'));
