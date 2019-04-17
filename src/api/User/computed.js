@@ -10,29 +10,23 @@ export default {
         fullName : parent => {
             return `${ parent.firstName } ${ parent.lastName }`;
         },
-        amIFollowing : async (parent, _, { request }) => {
+        isFollowing : async (parent, _, { request }) => {
             const { user } = request;
             const { id : parentId } = parent;
 
             try {
-                const exists = await prisma.$exists.user({
+                return prisma.$exists.user({
                     AND : [
                         {
-                            id : parentId
+                            id : user.id
                         },
                         {
-                            followers_some : [
-                                user.id
-                            ]
+                            following_some : {
+                                id : parentId
+                            }
                         }
                     ]
                 });
-    
-                if(exists) {
-                    return true;
-                } else {
-                    return false;
-                }
             } catch(err) {
                 console.log('computed.js amIFollowing error : ', err);
 
@@ -40,7 +34,7 @@ export default {
             }
         },
         // 요청하는 사람(parent)과 요청하는 사람(request)이 같으면, 내 프로필을 요청
-        itsMe : (parent, _, { request }) => {
+        isSelf : (parent, _, { request }) => {
             const { user } = request;
             const { id : parentId } = parent;
 
