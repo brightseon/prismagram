@@ -6,6 +6,16 @@ export default {
     // 다른 field들에게 영향이 가지 않는다.
     // Prisma에서 먼저 찾고, 찾을 수 없다면 내 서버에서 찾는다.
     User : {
+        posts : ({ id }) => prisma.user({ id }).posts(),
+        following : ({ id }) => prisma.user({ id }).following(),
+        followers : ({ id }) => prisma.user({ id }).followers(),
+        likes : ({ id }) => prisma.user({ id }).likes(),
+        comments : ({ id }) => prisma.user({ id }).comments(),
+        rooms : ({ id }) => prisma.user({ id }).rooms(),
+        followingCount : ({ id }) => 
+            prisma.usersConnection({ where : { followers_some : { id } } }).aggregate().count(),
+        followersCount : ({ id }) => 
+            prisma.usersConnection({ where : { following_none : { id } } }).aggregate().count(),
         // #3-14 Computed Fields in Prisma 참고
         fullName : parent => {
             return `${ parent.firstName } ${ parent.lastName }`;
