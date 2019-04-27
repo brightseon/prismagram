@@ -15,7 +15,7 @@ export default {
                             }
                         }
                     ]
-                });
+                }).node();
             },
             // #3-28. newMessage Subscription part Two 참고
             resolve : payload => payload
